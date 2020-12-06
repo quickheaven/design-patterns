@@ -1,0 +1,1 @@
+package ca.quickheaven.designpattern.behavioral;
