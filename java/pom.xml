@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ca.quickheaven</groupId>
-	<artifactId>designpattern</artifactId>
+	<artifactId>java-design-patterns</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>designpattern</name>
 	<description>Demo project for Java Design Pattern</description>
