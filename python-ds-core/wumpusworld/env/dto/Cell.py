@@ -21,7 +21,11 @@ class Cell:  # Room
         if len(self._percepts) > 0:
             sensors = " ".join(Percept.get_by_id(x) for x in self._percepts)
 
-        return 'Cell [{}][{}] {}\n{}'.format(self._x, self._y, items, sensors)
+        #label_x = self._x + 1
+        #label_y = self._y + 1
+        #return 'Cell [{}][{}]: [{},{}] {}\n{}'.format(self._x, self._y, label_x, label_y, items, sensors)
+
+        return 'Cell [{}][{}]: {}\n{}'.format(self._x, self._y, items, sensors)
 
     @property
     def x(self):
@@ -60,3 +64,6 @@ class Cell:  # Room
         else:
             self._percepts.append(percept)
             return 1
+
+    def isEmpty(self) -> bool:
+        return len(self._items) == 0

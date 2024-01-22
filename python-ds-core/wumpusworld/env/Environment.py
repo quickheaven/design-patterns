@@ -40,29 +40,23 @@ class Environment:
 
         cell_gold = random.choice(random.choice(matrix_excluding_first_element))
         cell_gold.add_item(Gold())
-        print(f"The randomly selected cell for Gold is {cell_gold}")
-
-        cell_pit = random.choice(random.choice(matrix_excluding_first_element))
-        cell_pit.add_item(Pit())
-        print(f"The randomly selected cell for Pit is {cell_pit}")
+        cell_gold.add_percept(Percept.GLITTER)
 
         cell_wumpus = random.choice(random.choice(matrix_excluding_first_element))
         cell_wumpus.add_item(Wumpus())
-        print(f"The randomly selected cell for Wumpus is {cell_wumpus}")
 
-        # Put the Sensor State Glitter on Gold.
-        cell_gold.add_percept(Percept.GLITTER)
+        adjacent_cells = self.__find_adjacent_cells(cell_wumpus)
+        for cell in adjacent_cells:
+            cell.add_percept(Percept.STENCH)
 
-        # Put the Sensor State Breeze in random (5).
-        for num in range(5):
-            cell_breeze = random.choice(random.choice(matrix_excluding_first_element))
-            cell_breeze.add_percept(Percept.BREEZE)
-
-        # Put the Sensor State Stench beside Wumpus (4).
-        # if cell_wumpus.x - 1 > 0:
-        # cell_stench = self._matrix[cell_wumpus.x - 1][cell_wumpus.y]
-        # cell_stench.add_sensor_state(Percept.STENCH)
-        # print(f"The cell with STENCH is {cell_stench}.")
+        # TODO used _pit_prob
+        matrix_excluding_first_two_element = [x[2:] for x in self._matrix]
+        cell_pit = random.choice(random.choice(matrix_excluding_first_two_element))
+        if cell_pit.isEmpty():
+            cell_pit.add_item(Pit())
+            adjacent_cells = self.__find_adjacent_cells(cell_pit)
+            for cell in adjacent_cells:
+                cell.add_percept(Percept.BREEZE)
 
         table = Texttable()
         table.add_rows(self._matrix[::-1]
@@ -71,9 +65,19 @@ class Environment:
         # table.add_rows(self._matrix, header=None)
         print(table.draw())
 
+    def __find_adjacent_cells(self, cell: Cell):
+        x = cell.x
+        y = cell.y
+        adjacent_cells = []
+        # i researched this from the internet.
+        for i in range(x - 1, x + 2):
+            for j in range(y - 1, y + 2):
+                if 0 <= i < self._width and 0 <= j < self._height and (i, j) != (x, y) and abs(i - x) + abs(j - y) == 1:
+                    adjacent_cells.append(self._matrix[i][j])
+        return adjacent_cells
 
-def reset_env(self):
-    self.__reset()
+    def reset_env(self):
+        self.__reset()
 
 
 if __name__ == '__main__':
