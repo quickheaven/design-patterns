@@ -43,12 +43,8 @@ class Cell:  # Room
     # def item(self, item: Item) -> None:
     #    self._item = item
 
-    def add_item(self, item: Item) -> int:
-        if item in self._items:
-            return 0
-        else:
-            self._items.append(item)
-            return 1
+    def add_item(self, item: Item):
+        self._items.append(item)
 
     @property
     def percepts(self):
