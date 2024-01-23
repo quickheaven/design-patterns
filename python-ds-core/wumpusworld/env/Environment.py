@@ -1,6 +1,7 @@
 import random
 from texttable import Texttable
 
+from wumpusworld.agent.Agent import Agent
 from wumpusworld.enums.Percept import Percept
 from wumpusworld.env.dto.Cell import Cell
 from wumpusworld.env.dto.Gold import Gold
@@ -11,9 +12,8 @@ from wumpusworld.env.dto.Wumpus import Wumpus
 Wumpus World HAS-A Environment:
 Environment HAS-A Matrix.
 Each element of Matrix IS-A Cell.
-The Cell HAS-A Item and Sensor State.
-The Item in the Cell can be Gold, Pit and Wumpus (extends the Item).
-The Cell HAS-A Sensor State: Stench, Breeze, Glitter, Scream. 
+The Cell HAS-A Item(s) that can be Gold, Pit and Wumpus (extends the Item).
+The Cell HAS-A Percept(s) that can be Stench, Breeze, Glitter, Scream. 
 
 Wumpus World HAS-A Agent:
 The Agent have 6 actions (Forward, Turn Left, Turn Right, Shoot, Grab and Climb)
@@ -22,7 +22,7 @@ The Agent have 6 actions (Forward, Turn Left, Turn Right, Shoot, Grab and Climb)
 
 class Environment:
 
-    def __init__(self, width, height, allow_climb_without_gold, pit_prob):
+    def __init__(self, width, height, allow_climb_without_gold=False, pit_prob=0.2):
         self._width = width
         self._height = height
         self._allow_climb_without_gold = allow_climb_without_gold
@@ -58,13 +58,6 @@ class Environment:
             for cell in adjacent_cells:
                 cell.add_percept(Percept.BREEZE)
 
-        table = Texttable()
-        table.add_rows(self._matrix[::-1]
-                       # This will reverse the order so the bottom index [0][0] will be displayed in the bottom.
-                       , header=None)
-        # table.add_rows(self._matrix, header=None)
-        print(table.draw())
-
     def __find_adjacent_cells(self, cell: Cell):
         x = cell.x
         y = cell.y
@@ -76,12 +69,24 @@ class Environment:
                     adjacent_cells.append(self._matrix[i][j])
         return adjacent_cells
 
-    def reset_env(self):
+    def reset(self):
         self.__reset()
+
+    def draw(self):
+        table = Texttable()
+        table.add_rows(self._matrix[::-1]
+                       # This will reverse the order so the bottom index [0][0] will be displayed in the bottom.
+                       , header=None)
+        # table.add_rows(self._matrix, header=None)
+        print(table.draw())
+
+    def add_agent(self, agent: Agent):
+        cell_agent = self._matrix[0][0]
+        cell_agent.add_item(agent)
 
 
 if __name__ == '__main__':
     print('Creating environment')
-    env = Environment(4, 4, True, 0.2)
-    # print('Reset the environment')
-    # env.reset_env()
+    env = Environment(4, 4)
+    env.draw()
+
