@@ -1,4 +1,4 @@
-package ca.quickheaven.designpattern.command;
+package ca.quickheaven.designpattern.behavioral.command;
 
 /**
  * This class will act as a Command.
