@@ -2,7 +2,6 @@
 Design patterns review project.
 
 
-
 # Java to Python OOP: Bridge the Gap for Java Developers
 ## 1. Introduction to Object-Oriented Programing Concepts
 
@@ -85,3 +84,9 @@ Method Resolution Order (MRO) multiple inheritance.
 Implementation of Abstract classes:
 from abc import ABC, abstractmethod
 @abstractmethod
+
+# Java Design Patterns
+## Behavioral
+## Creational
+## Structural
+
